@@ -328,7 +328,7 @@ lp.Parent = logLabel
 -- Init
 -- ============================================================
 log("DFoxy Hub iniciado")
-if GITHUB_USER == "SEU_USUARIO" then
+if GITHUB_USER == "Foxy-Ghost" then
     log("⚠ Configure GITHUB_USER e GITHUB_REPO no topo!")
 else
     log("Repo: " .. GITHUB_USER .. "/" .. GITHUB_REPO)
