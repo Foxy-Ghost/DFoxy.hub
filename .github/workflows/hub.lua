@@ -10,8 +10,8 @@ local playerGui = player:WaitForChild("PlayerGui")
 -- ══════════════════════════════════════════════════════
 -- EDITE AQUI (troque pelo seu usuário e repo)
 -- ══════════════════════════════════════════════════════
-local GITHUB_USER   = "SEU_USUARIO"
-local GITHUB_REPO   = "SEU_REPO"
+local GITHUB_USER   = "Foxy-Ghost"
+local GITHUB_REPO   = "DFoxy.hub"
 local GITHUB_BRANCH = "main"
 -- ══════════════════════════════════════════════════════
 
