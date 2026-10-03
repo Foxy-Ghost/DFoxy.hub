@@ -606,3 +606,15 @@ notify.TextColor3 = COR_TEXTO
 notify.Font = Enum.Font.GothamBold
 notify.TextSize = 13
 notify.Text = "  DFoxy carregado! Anti-AF
+
+-- Expor unload para o hub
+getgenv().DFoxyUnload = function()
+    for k in pairs(loopGen) do
+        loopGen[k] = -1  -- invalida todos os loops do startLoop
+    end
+    fpsRunning = false
+    if fpsConn then fpsConn:Disconnect() fpsConn = nil end
+    local ui = playerGui:FindFirstChild("DFoxyUI")
+    if ui then ui:Destroy() end
+    warn("[DFoxy] Unloaded.")
+end
