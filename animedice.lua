@@ -1,4 +1,3 @@
-```lua
 -- ============================================================
 -- ANIME DICE - Script 100% local (sem HTTP, sem loadstring)
 -- Autor: DFoxy
@@ -13,17 +12,11 @@ local Lighting = game:GetService("Lighting")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
--- ============================================================
--- ANTI-AFK
--- ============================================================
 player.Idled:Connect(function()
    VirtualUser:CaptureController()
    VirtualUser:ClickButton2(Vector2.new())
 end)
 
--- ============================================================
--- REMOTES
--- ============================================================
 local Network = ReplicatedStorage:WaitForChild("Network")
 local equipBestRemote      = Network:WaitForChild("PlotService"):WaitForChild("RE"):WaitForChild("EquipBest")
 local equipBestTowerRemote = Network:WaitForChild("Towers"):WaitForChild("RE"):WaitForChild("EquipBestTowerTeam")
@@ -31,13 +24,9 @@ local rebirthRemote        = Network:WaitForChild("RebirthService"):WaitForChild
 local collectRemote        = Network:WaitForChild("PlotService"):WaitForChild("RE"):WaitForChild("CollectBalance")
 local claimDailyRemote     = Network:WaitForChild("DailyRewardService"):WaitForChild("RE"):WaitForChild("Claim")
 
--- Remove UI antiga se existir
 local old = playerGui:FindFirstChild("DFoxyUI")
 if old then old:Destroy() end
 
--- ============================================================
--- TEMA (Azul + Laranja)
--- ============================================================
 local COR_FUNDO        = Color3.fromRGB(18, 22, 38)
 local COR_TITULO       = Color3.fromRGB(30, 90, 200)
 local COR_LARANJA      = Color3.fromRGB(240, 130, 40)
@@ -47,9 +36,6 @@ local COR_TEXTO        = Color3.fromRGB(255, 255, 255)
 local COR_SECAO        = Color3.fromRGB(255, 160, 70)
 local COR_SLIDER_FUNDO = Color3.fromRGB(25, 45, 80)
 
--- ============================================================
--- GUI PRINCIPAL
--- ============================================================
 local gui = Instance.new("ScreenGui")
 gui.Name = "DFoxyUI"
 gui.ResetOnSpawn = false
@@ -104,7 +90,6 @@ closeBtn.BorderSizePixel = 0
 closeBtn.Parent = titleBar
 Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(0, 6)
 
--- Arrastar
 local dragging, dragStart, startPos
 titleBar.InputBegan:Connect(function(input)
    if input.UserInputType == Enum.UserInputType.MouseButton1
@@ -129,7 +114,6 @@ UserInputService.InputChanged:Connect(function(input)
    end
 end)
 
--- Minimizar
 local minimized = false
 closeBtn.MouseButton1Click:Connect(function()
    minimized = not minimized
@@ -142,7 +126,6 @@ closeBtn.MouseButton1Click:Connect(function()
    end
 end)
 
--- Conteúdo com scroll
 local content = Instance.new("ScrollingFrame")
 content.Size = UDim2.new(1, -20, 1, -50)
 content.Position = UDim2.new(0, 10, 0, 45)
@@ -159,9 +142,6 @@ layout.SortOrder = Enum.SortOrder.LayoutOrder
 layout.Padding = UDim.new(0, 6)
 layout.Parent = content
 
--- ============================================================
--- UTILITÁRIOS DA UI
--- ============================================================
 local function addSection(text)
    local l = Instance.new("TextLabel")
    l.Size = UDim2.new(1, 0, 0, 24)
@@ -298,11 +278,6 @@ local function addSlider(name, minV, maxV, default, onChange)
    end)
 end
 
--- ============================================================
--- GUARDA CONTRA LOOPS DUPLICADOS
--- Ligar/desligar/ligar antes criava 2 loops rodando juntos.
--- Agora cada feature tem uma geração; ligar de novo invalida a antiga.
--- ============================================================
 local loopGen = {}
 local function startLoop(key, getState, intervalFn, fn)
    loopGen[key] = (loopGen[key] or 0) + 1
@@ -316,17 +291,11 @@ local function startLoop(key, getState, intervalFn, fn)
    end)
 end
 
--- ============================================================
--- ESTADO
--- ============================================================
 local autoEquip, autoEquipTower, autoRebirth, autoCollect, autoDaily = false, false, false, false, false
 local collectDelay = 1200
 local fpsOn, noclipOn, wsOn = false, false, false
 local wsValue = 16
 
--- ============================================================
--- FPS BOOST (visual — restaura tudo ao desligar)
--- ============================================================
 local fpsRestore = {}
 local fpsHidden = {}
 local fpsConn = nil
@@ -414,7 +383,6 @@ local function fpsApply()
       end
    end)
 
-   -- Varredura em lotes pra não travar 1 frame
    task.spawn(function()
       local count = 0
       for _, o in ipairs(workspace:GetDescendants()) do
@@ -449,9 +417,6 @@ local function fpsRemove()
    fpsRestore = {}
 end
 
--- ============================================================
--- UI — EQUIP BEST
--- ============================================================
 addSection("EQUIP BEST")
 
 addToggle("Auto Equip Best Anime (30s)", false, function(v)
@@ -472,9 +437,6 @@ addToggle("Auto Equip Best Tower (30s)", false, function(v)
    end
 end)
 
--- ============================================================
--- UI — REBIRTH
--- ============================================================
 addSection("REBIRTH")
 
 addButton("Do Rebirth (agora)", function()
@@ -490,9 +452,6 @@ addToggle("Auto Rebirth (10 min)", false, function(v)
    end
 end)
 
--- ============================================================
--- UI — AUTO COLLECT
--- ============================================================
 addSection("AUTO COLLECT")
 
 local function collectAllPlots()
@@ -519,9 +478,6 @@ addToggle("Auto Collect Balance", false, function(v)
    end
 end)
 
--- ============================================================
--- UI — DAILY REWARD
--- ============================================================
 addSection("DAILY REWARD")
 
 addButton("Claim Daily Reward (agora)", function()
@@ -537,9 +493,6 @@ addToggle("Auto Claim Daily (1 hora)", false, function(v)
    end
 end)
 
--- ============================================================
--- UI — PERFORMANCE
--- ============================================================
 addSection("PERFORMANCE")
 
 addToggle("FPS Boost (efeitos visuais)", false, function(v)
@@ -551,9 +504,6 @@ addToggle("FPS Boost (efeitos visuais)", false, function(v)
    end
 end)
 
--- ============================================================
--- UI — PERSONAGEM
--- ============================================================
 addSection("PERSONAGEM")
 
 addToggle("Noclip", false, function(v)
@@ -576,14 +526,12 @@ addSlider("WalkSpeed valor", 16, 250, 16, function(v)
    end
 end)
 
--- Aplica em respawn
 player.CharacterAdded:Connect(function(char)
    task.wait(0.5)
    local hum = char:FindFirstChildOfClass("Humanoid")
    if hum and wsOn then hum.WalkSpeed = wsValue end
 end)
 
--- Loop do noclip
 RunService.Stepped:Connect(function()
    if not noclipOn then return end
    local char = player.Character
@@ -596,7 +544,21 @@ RunService.Stepped:Connect(function()
 end)
 
 -- ============================================================
--- NOTIFICAÇÃO INICIAL
+-- UNLOAD (o hub chama isso no botão "Descarregar Tudo")
+-- ============================================================
+getgenv().DFoxyUnload = function()
+   for k in pairs(loopGen) do
+      loopGen[k] = -1
+   end
+   fpsRunning = false
+   if fpsConn then fpsConn:Disconnect() fpsConn = nil end
+   local ui = playerGui:FindFirstChild("DFoxyUI")
+   if ui then ui:Destroy() end
+   warn("[DFoxy] Unloaded.")
+end
+
+-- ============================================================
+-- NOTIFICACAO INICIAL
 -- ============================================================
 local notify = Instance.new("TextLabel")
 notify.Size = UDim2.new(0, 240, 0, 34)
@@ -605,16 +567,26 @@ notify.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 notify.TextColor3 = COR_TEXTO
 notify.Font = Enum.Font.GothamBold
 notify.TextSize = 13
-notify.Text = "  DFoxy carregado! Anti-AF
+notify.Text = "  DFoxy carregado! Anti-AFK ativo."
+notify.TextXAlignment = Enum.TextXAlignment.Left
+notify.Parent = gui
+Instance.new("UICorner", notify).CornerRadius = UDim.new(0, 6)
 
--- Expor unload para o hub
-getgenv().DFoxyUnload = function()
-    for k in pairs(loopGen) do
-        loopGen[k] = -1  -- invalida todos os loops do startLoop
-    end
-    fpsRunning = false
-    if fpsConn then fpsConn:Disconnect() fpsConn = nil end
-    local ui = playerGui:FindFirstChild("DFoxyUI")
-    if ui then ui:Destroy() end
-    warn("[DFoxy] Unloaded.")
-end
+local gNot = Instance.new("UIGradient")
+gNot.Color = ColorSequence.new({
+   ColorSequenceKeypoint.new(0, COR_TITULO),
+   ColorSequenceKeypoint.new(1, COR_LARANJA)
+})
+gNot.Parent = notify
+
+task.delay(4, function()
+   notify:TweenPosition(
+      UDim2.new(0, 10, 0, -40),
+      Enum.EasingDirection.Out,
+      Enum.EasingStyle.Quad,
+      0.5,
+      true
+   )
+   task.wait(0.6)
+   notify:Destroy()
+end)
